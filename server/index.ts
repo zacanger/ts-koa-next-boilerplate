@@ -1,15 +1,13 @@
 import * as humps from 'humps'
 import Koa from 'koa'
-import bodyparser from 'koa-body'
-import morgan from 'koa-morgan'
-import mount from 'koa-mount'
-import proxy from 'koa-proxies'
+import middlewares from 'koa-mid'
 import Router from 'koa-router'
 import next from 'next'
+import pino from 'koa-pino-logger'
+import koaLogger from 'koa-logger'
 
-const port = parseInt(process.env.PORT || '3000', 10)
+const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const API_URI_BASE = process.env.API_URI_BASE || ''
 
 const main = async () => {
   const nextApp = next({ dev })
@@ -20,11 +18,12 @@ const main = async () => {
 
   const handle = nextApp.getRequestHandler()
 
-  const renderNext = (route: string) => (ctx: any) => {
+  const renderNext = (route: string) => (ctx: Koa.Context) => {
     ctx.res.statusCode = 200
     ctx.respond = false
 
     nextApp.render(ctx.req, ctx.res, route, {
+      // @ts-ignore
       ...((ctx.request && ctx.request.body) || {}),
       ...ctx.params,
       ...(ctx.query && humps.camelizeKeys(ctx.query)),
@@ -33,29 +32,22 @@ const main = async () => {
 
   router.get('/', renderNext('/'))
 
-  app
-    .use(morgan('combined'))
-    .use(
-      mount('/health', (ctx: Koa.Context) => {
-        ctx.status = 200
-      })
-    )
-    .use(
-      proxy('/api', {
-        target: API_URI_BASE,
-        changeOrigin: true,
-      })
-    )
-    .use(bodyparser())
-    .use(router.routes())
-    .use(
-      mount('/', (ctx: Koa.Context) => {
-        ctx.respond = false
-        handle(ctx.req, ctx.res)
-      })
-    )
+  if (dev) {
+    app.use(koaLogger())
+  } else {
+    app.use(pino())
+  }
+
+  app.use(middlewares)
+  app.use(router.routes())
+
+  app.use(async (ctx: Koa.Context) => {
+    ctx.respond = false
+    handle(ctx.req, ctx.res)
+  })
 
   app.listen(port, () => {
+    // eslint-disable-next-line no-console
     console.log(`listening on ${port}`)
   })
 }

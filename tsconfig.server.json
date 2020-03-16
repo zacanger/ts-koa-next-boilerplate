@@ -3,9 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "lib",
-    "target": "es2017",
-    "isolatedModules": false,
-    "noEmit": false
+    "target": "es2017"
   },
   "include": [
     "server/**/*.ts"
