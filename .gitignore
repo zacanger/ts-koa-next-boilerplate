@@ -1,0 +1,16 @@
+*.log
+*.swp
+*.tmp
+*~
+._*
+.idea
+.next
+.nyc_output
+.vs/
+.vscode
+/tags
+core
+coverage
+lib
+lib-cov
+node_modules
