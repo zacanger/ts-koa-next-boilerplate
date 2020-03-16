@@ -17,6 +17,7 @@
     "build": "next build && tsc --project tsconfig.server.json",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "prebuild": "npm t",
+    "preversion": "npm run build",
     "prod": "NODE_ENV=production node lib/index.js",
     "start": "nodemon",
     "test": "run-s -s test:ts test:lint",
