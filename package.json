@@ -44,6 +44,7 @@
     "typescript"
   ],
   "dependencies": {
+    "fetchyeah": "3.0.9",
     "humps": "2.0.1",
     "koa": "2.11.0",
     "koa-body": "4.1.1",

@@ -1,16 +1,25 @@
 import * as React from 'react'
+import { getJson } from 'fetchyeah'
 import styled from 'styled-components'
+
+type Strings = {
+  strings: string[]
+}
 
 const Item = styled.div`
   width: 200px;
   height: 200px;
   background-color: red;
   color: gold;
+  margin: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
-const Items = () => (
+const Items = ({ strings }: Strings) => (
   <React.Fragment>
-    {['one', 'two', 'three', 'four', 'five'].map((el: string) => (
+    {strings.map((el: string) => (
       <Item key={el}>{el}</Item>
     ))}
   </React.Fragment>
@@ -18,14 +27,29 @@ const Items = () => (
 
 const Wrapper = styled.main`
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  flex-direction: row;
+  flex-wrap: wrap;
 `
 
-const Index = () => (
-  <Wrapper>
-    <Items />
-  </Wrapper>
-)
+export default class Index extends React.Component<{}, Strings> {
+  state = {
+    strings: ['hello'],
+  }
 
-export default Index
+  handleClick = () => {
+    getJson('/api/strings')
+      // @ts-ignore
+      .then((res: string[]) => {
+        this.setState({ strings: res })
+      })
+  }
+
+  render() {
+    return (
+      <Wrapper>
+        <button onClick={this.handleClick}>click me</button>
+        <Items strings={this.state.strings} />
+      </Wrapper>
+    )
+  }
+}

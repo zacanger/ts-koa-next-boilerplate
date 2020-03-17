@@ -9,6 +9,14 @@ import koaLogger from 'koa-logger'
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
 
+const getRandomString = () =>
+  Math.random()
+    .toString(36)
+    .slice(2)
+
+const getRandomStrings = (): string[] =>
+  Array.from({ length: 10 }, getRandomString)
+
 const main = async () => {
   const nextApp = next({ dev })
   const app = new Koa()
@@ -29,6 +37,11 @@ const main = async () => {
       ...(ctx.query && humps.camelizeKeys(ctx.query)),
     })
   }
+
+  router.get('/api/strings', async (ctx: Koa.Context) => {
+    ctx.type = 'application/json'
+    ctx.body = JSON.stringify(getRandomStrings())
+  })
 
   router.get('/', renderNext('/'))
 
