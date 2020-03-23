@@ -3,7 +3,7 @@ import { getJson } from 'fetchyeah'
 import styled from 'styled-components'
 
 type Strings = {
-  strings: string[]
+  strings: Array<string>
 }
 
 const Item = styled.div`
@@ -39,7 +39,7 @@ export default class Index extends React.Component<{}, Strings> {
   handleClick = () => {
     getJson('/api/strings')
       // @ts-ignore
-      .then((res: string[]) => {
+      .then((res: Array<string>) => {
         this.setState({ strings: res })
       })
   }

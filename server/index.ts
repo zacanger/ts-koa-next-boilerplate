@@ -9,12 +9,9 @@ import koaLogger from 'koa-logger'
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
 
-const getRandomString = () =>
-  Math.random()
-    .toString(36)
-    .slice(2)
+const getRandomString = () => Math.random().toString(36).slice(2)
 
-const getRandomStrings = (): string[] =>
+const getRandomStrings = (): Array<string> =>
   Array.from({ length: 10 }, getRandomString)
 
 const main = async () => {
