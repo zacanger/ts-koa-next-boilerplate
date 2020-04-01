@@ -1,7 +1,7 @@
 {
   "name": "ts-koa-next-boilerplate",
   "description": "Web app boilerplate using Koa, TypeScript, Next.js, and Styled Components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "author": {
     "email": "zac@zacanger.com",
