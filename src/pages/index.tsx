@@ -31,7 +31,7 @@ const Wrapper = styled.main`
   flex-wrap: wrap;
 `
 
-export default class Index extends React.Component<{}, Strings> {
+export default class Index extends React.Component<null, Strings> {
   state = {
     strings: ['hello'],
   }
