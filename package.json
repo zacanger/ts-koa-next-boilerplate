@@ -55,7 +55,7 @@
     "koa-mid": "3.1.5",
     "koa-pino-logger": "3.0.0",
     "koa-router": "9.4.0",
-    "next": "9.5.3",
+    "next": "9.5.4",
     "normalize.css": "8.0.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
