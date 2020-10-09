@@ -101,5 +101,8 @@
     "package.json": [
       "sortpack"
     ]
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
